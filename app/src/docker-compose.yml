@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  app:
+    image: myapp:1.0
+  postgres:
+    image: postgres:13.3
+    environment:
+      POSTGRES_DB: "pg"
+      POSTGRES_USER: "pg"
+      POSTGRES_PASSWORD: "pg"
+    ports:
+      - "5432:5432"

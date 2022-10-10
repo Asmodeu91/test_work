@@ -1,0 +1,27 @@
+node ("Docker") {
+
+    def result = ""
+
+    git (repo, branch)
+
+    try {
+
+    dir("$workdirectory/repo") {
+        git (repo, branch) #( paramerts from git webhook)
+        sh "oc login ..."
+        sh "oc new-app . --docker-image=repo:${appname}:${branch} --name=${appname}:${branch}"
+        result = SUCCESS
+
+
+    }
+    } catch (Exception E ){
+
+        result = FAILURE
+
+        email(E)
+        tgsend(E)
+        setBuildResult(result)
+
+    }
+
+}

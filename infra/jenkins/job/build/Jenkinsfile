@@ -1,0 +1,28 @@
+node ("Docker") {
+
+    def result = ""
+
+    git (repo, branch)
+
+    try {
+
+    dir("$workdirectory/repo") {
+        git (repo, branch) #( paramerts from git webhook)
+        sh "docker login ....." # login to private registry
+        sh "docker build -t ${appname}:${branch}"
+        sh "docker push ...."
+        result = SUCCESS
+
+
+    }
+    } catch (Exception E ){
+
+        result = FAILURE
+
+        email(E)
+        tgsend(E)
+        setBuildResult(result)
+
+    }
+
+}
